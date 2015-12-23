@@ -11,25 +11,35 @@ This is for lio ( https://github.com/lionello ) - haha!
     (10 let n = 0)
     (20 print hello)
     (30 print n)
-    (40 let n = n + 1)
+    (40 let n = n + 1 * 2)
     (50 goto 20)
     Ready!
     run
     hello
     0
     hello
-    1
-    hello
     2
-    hello
-    3
     hello
     4
     hello
+    6
+    hello
+    8
+    hello
     ....
-
 
 
 ## run on esp-lisp on esp8266
 
 not working on esp-lisp yet (too much schemeisms here)
+
+## functionality
+
+- only integers
+- simple expressions with + - / * with correct priorites
+- you have to use let
+- to edit a line type it in: (35 print "moho!")
+- run / list 
+- any command can be typed on the command line: (print "hello")
+- goto NN / gosub
+- TODO: if ;-)
