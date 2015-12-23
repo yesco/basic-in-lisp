@@ -70,8 +70,11 @@
                  (else (cond
                           ((eq? stat 'print) (display (expr a vars)) (newline))
                           ((eq? stat 'list) (map (lambda (l) (display l) (newline)) bprog))
-                          (else (error "BASIC: can't understand: " curr)) )
-                    (brun (cdr p) stack vars) ) ) ) )
+			  ;; catch all for everything not matched - reset all but keep vars state for debugging
+                          (else (display "BASIC: can't understand: ") (display curr)
+				(set! p (quote ((0 print "error"))))
+				(set! stack (list)))) 
+		       (brun (cdr p) stack vars) ) ) ) )
 ;; guile
 (use-modules (ice-9 readline))
 (activate-readline)
@@ -89,14 +92,15 @@
 
 
 (define (basic-vars vars)
-   (display "Ready!\n")
+   (display "\nReady!\n")
    (let ((ln (read)))
       (cond
          ((atom? ln) (brun (list (list 0 ln)) nil vars))
+         ((not (integer? (car ln))) (brun (list (cons 0 ln)) nil vars))
          ((integer? (car ln)) (set! bprog (binsert ln bprog)) (basic-vars vars)))))
 
 (define (basic)
-   (basic-vars nil))
+  (basic-vars nil))
 
 (use-modules (ice-9 debug))
 (trace brun)
