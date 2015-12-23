@@ -36,10 +36,11 @@ not working on esp-lisp yet (too much schemeisms here)
 ## functionality
 
 - only integers
+- lower case keywords
 - simple expressions with + - / * with correct priorites
 - you have to use let
 - to edit a line type it in: (35 print "moho!")
-- run / list 
-- any command can be typed on the command line: (print "hello")
-- goto NN / gosub
+- single word comands just type it: run / list
+- any statement can be typed on the command line: (print "hello")
+- goto NN / gosub NN / print X
 - TODO: if ;-)
