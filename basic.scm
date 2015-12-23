@@ -15,7 +15,7 @@
    '((10 let n = 0)
      (20 print "hello")
      (30 print n)
-     (40 let n = n + 1)
+     (40 let n = n + 1 * 2)
      (50 goto 20)))
 
 ;; basic supporting function
@@ -34,9 +34,23 @@
    (cond
       ((symbol? x) (getvar x vars))
       ((atom? x) x)
-      (else (let ((n (getvar 'n vars)))
-               (+ n 1) ) )))
-
+      ((number? x) x)
+      ((not (pair? x)) (throw "Not understood expression: " x))
+      ((= 1 (length x)) (expr (car x) vars))
+      ((and (symbol? (car x)) (pair? (cadr x)))
+       (let ((args (cadr x)))
+	 (case (car x)
+	   ((round) (round (expr (car args) vars))))))
+      (else (let ((a (expr (car x) vars))
+		  (op (cadr x))
+		  (b (cddr x)))
+	      (case op
+		((+) (+ a (expr b vars)))
+		((-) (- a (expr b vars)))
+		((/) (expr (cons (/ a (expr (car b) vars)) (cdr b)) vars))
+		((*) (expr (cons (* a (expr (car b) vars)) (cdr b)) vars))
+		)))))
+	      
 (define (setvar var val vars)
    (let ((bind (assoc var vars)))
       (cond
@@ -61,6 +75,7 @@
                   (args (cddr curr))
                   (a (nth 0 args)))
               ;; use case?
+	      ;; (display "-------------------") (display curr) (display " ") (display vars) (newline)
               (cond
                  ((eq? stat 'return)  (brun (car stack)    (cdr stack)          vars))
                  ((eq? stat 'goto)    (brun (goto a bprog) stack                vars))
@@ -103,6 +118,7 @@
   (basic-vars nil))
 
 (use-modules (ice-9 debug))
-(trace brun)
+;;(trace brun)
+(trace expr)
 
 (basic)
