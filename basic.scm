@@ -89,14 +89,20 @@
 
 ;; (readline "prompt>") => string
 
+;; (binsert '(51 print "fish") bprog)  ; add or edit
+;; (binsert '(51) bprog)               ; delete
+
 ;; TODO: define destructive insert that is tail safe?
+;; semibug: delete non-exisiting entry and it'll be added
 (define (binsert ln prog)
    (let ((n (car ln))
          (curn (caar prog)))
       (cond
-         ((null? prog) nil)
+         ((null? prog) (list ln))
          ((< n curn) (cons ln prog))
-         ((= n curn) (cons ln (cdr prog)))
+         ((= n curn) (if (cdr ln)
+			 (cons ln (cdr prog))
+			 (cdr prog)))
          (else (cons (car prog) (binsert ln (cdr prog)))))))
 
 
@@ -104,6 +110,7 @@
    (display "\nReady!\n")
    (let ((ln (read)))
       (cond
+         ((eq ln 'exit) "Bye")
          ((atom? ln) (brun (list (list 0 ln)) nil vars))
          ((not (integer? (car ln))) (brun (list (cons 0 ln)) nil vars))
          ((integer? (car ln)) (set! bprog (binsert ln bprog)) (basic-vars vars)))))
