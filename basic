@@ -1,0 +1,1 @@
+(echo ""; echo 'mem (load "../basic-in-lisp/esplisp.scm")' ; echo 'mem (load "../basic-in-lisp/basic.scm")'; cat -) | ./run

@@ -1,15 +1,11 @@
-;; fix scheme...
+;; example basic program
 
-(define nil (list))
 (define (nth n l)
    (cond
       ((null? l) nil)
       ((< n 0) nil)
       ((= n 0) (car l))
       (else (nth (- n 1) (cdr l)))))
-(define (atom? x) (not (or (pair? x) (null? x))))
-
-;; example basic program
 
 (define bprog
    '((10 let n = 0)
@@ -90,9 +86,7 @@
 				(set! p (quote ((0 print "error"))))
 				(set! stack (list)))) 
 		       (brun (cdr p) stack vars) ) ) ) )
-;; guile
-(use-modules (ice-9 readline))
-(activate-readline)
+
 ;; (readline "prompt>") => string
 
 ;; TODO: define destructive insert that is tail safe?
@@ -116,9 +110,5 @@
 
 (define (basic)
   (basic-vars nil))
-
-(use-modules (ice-9 debug))
-;;(trace brun)
-(trace expr)
 
 (basic)
