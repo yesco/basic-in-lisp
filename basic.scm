@@ -1,4 +1,4 @@
-;; example basic program
+;; common extension
 
 (define (nth n l)
    (cond
@@ -6,6 +6,8 @@
       ((< n 0) nil)
       ((= n 0) (car l))
       (else (nth (- n 1) (cdr l)))))
+
+;; example basic program
 
 (define bprog
    '((10 let n = 0)
@@ -106,6 +108,7 @@
          (else (cons (car prog) (binsert ln (cdr prog)))))))
 
 
+;; top loop
 (define (basic-vars vars)
    (display "\nReady!\n")
    (let ((ln (read)))
