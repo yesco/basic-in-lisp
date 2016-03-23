@@ -2,17 +2,14 @@
 
 (define (display x) (princ x))
 
-(setq display princ)
-(setq newline terpri)
-(setq set! setq)
-(setq set-car! setcar)
-(setq set-cdr! setcdr)
-(setq eq? eq)
-(setq eqv? eq)
-(setq equal? equal)
-(setq pair? cons?)
+(define display princ)
+(define newline terpri)
+(define eq? eq)
+(define eqv? eq)
+(define equal? equal)
+(define pair? cons?)
 
-(setq else t)
+(define else t)
 
 (define (cadr x) (car (cdr x)))
 (define (cddr x) (cdr (cdr x)))
